@@ -81,6 +81,15 @@ module.exports = {
         // log rsync command in verbose mode
         this.log(rsync.command(), { verbose: true });
 
+        // log the output of rsync in verbose mode
+        const logger = this;
+
+        rsync.output(function(data) {
+          logger.log(data, {verbose: true});
+        }, function(data) {
+          logger.log(data, {verbose: true});
+        });
+
         return new Promise((resolve, reject) => {
           rsync.execute((error, code, cmd) => {
             if (error) {
